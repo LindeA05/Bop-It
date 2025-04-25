@@ -12,7 +12,7 @@ int buttonTwist = 3;
 int ledRood = 4;
 int ledGroen = 5;
 int lastTime = 0;
-int reactieTijd = 2000;
+int reactieTijd = 3000;
 int startLamp;
  
 void setup() {
@@ -50,7 +50,7 @@ void loop() {
  if (counter >= 10) {
     counter = 0;
     level = level +1;
-    tijd = tijd -2000;
+    reactieTijd = reactieTijd -500;
     Serial.println(level);
     //lose = true;
     }
