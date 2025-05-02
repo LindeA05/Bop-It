@@ -1,3 +1,6 @@
+// Linde Aerssens en Janne Swijsen
+
+
 // geluid afspelen
 #include "Arduino.h"
 #include "SoftwareSerial.h"
