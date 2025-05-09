@@ -95,6 +95,12 @@ void bopIt() {
 
   bool correct = false;
 
+ // Serial.println("DFPlayer Mini ready!");
+  //myDFPlayer.volume(25);  // Set volume (0 to 30)
+  //Serial.println("Playing File 001.mp3");
+  //myDFPlayer.play(3);      // Play third MP3 file
+
+
   while (millis() - startTijd < reactieTijd) {
 
     if (digitalRead(buttonPush) == LOW) {
@@ -168,6 +174,12 @@ void pullIt() {
   unsigned long startTijd = millis();
 
   bool correct = false;
+  
+  Serial.println("DFPlayer Mini ready!");
+  myDFPlayer.volume(25);  // Set volume (0 to 30)
+  Serial.println("Playing File 001.mp3");
+  myDFPlayer.play(2);      // Play second MP3 file
+
 
   while (millis() - startTijd < reactieTijd) {
 
