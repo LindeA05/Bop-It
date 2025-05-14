@@ -1,5 +1,5 @@
 ### Bop-it
-*Door Janne Swijnsen en Linde Aerssens voor het vak opkomende technologiën*
+*Door Janne Swijsen en Linde Aerssens voor het vak opkomende technologiën*
 
 ## Bop-it met 1 speler
 Schema:
