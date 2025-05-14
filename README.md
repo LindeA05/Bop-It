@@ -6,7 +6,7 @@ Schema:
 <p align="center">
   <img src="https://github.com/LindeA05/Bop-It/blob/main/Images/opstelling%20enkel%20spel_2.png" width="500" />
 </p>
-Er werd gebruikt gemaakt van een Arduino uno.
+Er werd gebruikt gemaakt van een Arduino uno, een MDF player en een speaker.
 
 [code](https://github.com/LindeA05/Bop-It/tree/main/Code/bop_it)
 
