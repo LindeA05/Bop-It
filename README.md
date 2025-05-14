@@ -4,7 +4,7 @@
 ## Bop-it met 1 speler
 Schema:
 <p align="center">
-  <img src="link naar foto met schema" width="500" />
+  <img src="https://github.com/LindeA05/Bop-It/blob/main/Images/opstelling%20enkel%20spel_2.png" width="500" />
 </p>
 Er werd gebruikt gemaakt van een Arduino uno.
 
