@@ -6,6 +6,7 @@ Schema:
 <p align="center">
   <img src="link naar foto met schema" width="500" />
 </p>
+Er werd gebruikt gemaakt van een Arduino uno.
 
 [code](https://github.com/LindeA05/Bop-It/tree/main/Code/bop_it)
 
