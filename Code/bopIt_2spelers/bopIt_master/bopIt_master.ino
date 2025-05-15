@@ -13,7 +13,7 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
 //topics
-const char broker[] = "test.mosquitto.org";
+const char broker[] = "broker.hivemq.com";
 int        port     = 1883;
 const char actie[]  = "real_unique_actie";
 const char reactie[]  = "real_unique_reactie";
@@ -24,6 +24,7 @@ const char winnaar[]  = "real_unique_winnaar";
 int score1 = 0;
 int score2 = 0;
 bool actieGestart = false;
+bool actieBezig = false;
 unsigned long startTijd;
 String huidigeActie = "";
 
@@ -80,8 +81,8 @@ void loop() {
   mqttClient.poll();
   
 
-  if (!actieGestart) {
-    delay(2000); // korte pauze tussen rondes
+  if (!actieGestart && !actieBezig) {
+     
     kiesActie();
   } else {
     controleerInput("speler1");
@@ -125,7 +126,7 @@ void controleerInput(String speler) {
     mqttClient.print("speler1");
     mqttClient.endMessage();
     
-    actieGestart = false;
+    
   }else{
     
   }
@@ -177,19 +178,24 @@ void onMqttMessage(int messageSize) {
     }
 
     if (score1 >= 10) {
+      score1 = 0;
+      score2 =0;
       mqttClient.beginMessage(winnaar);
       mqttClient.print("speler1");
       mqttClient.endMessage();
-      Serial.println("🎉 Jij wint!");
+      Serial.println("Jij wint!");
       for (int i = 0; i < 5; i++) {
         digitalWrite(ledGroen, HIGH); delay(200);
         digitalWrite(ledGroen, LOW); delay(200);
       }
     }
     else if (score2 >= 10) {
+      score1=0;
+      score2 =0;
       mqttClient.beginMessage(winnaar);
       mqttClient.print("speler2");
       mqttClient.endMessage();
+    actieBezig = false;
     }
   }
 }

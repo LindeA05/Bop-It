@@ -9,7 +9,7 @@ char pass[] = SECRET_PASS;    // your network password
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
-const char broker[] = "test.mosquitto.org";
+const char broker[] = "broker.hivemq.com";
 int        port     = 1883;
 const char actie[]  = "real_unique_actie";
 const char reactie[]  = "real_unique_reactie";
@@ -64,7 +64,7 @@ void setup() {
 
   // subscribe to a topic
   mqttClient.subscribe(actie);
-  mqttClient.subscribe(resultaatSpeler1);
+  mqttClient.subscribe(resultaatSpeler2);
   mqttClient.subscribe(winnaar);
 
   pinMode(buttonPush, INPUT_PULLUP);
@@ -125,6 +125,7 @@ void onMqttMessage(int messageSize) {
       delay(1000);
       digitalWrite(ledRood, LOW);
     }
+  }
   if (topic == winnaar && bericht == "speler2") {
     Serial.println("🎉 Jij wint!");
     for (int i = 0; i < 5; i++) {
@@ -132,7 +133,6 @@ void onMqttMessage(int messageSize) {
       digitalWrite(ledGroen, LOW); delay(200);
     }
     
-  }
   }
 }
   
