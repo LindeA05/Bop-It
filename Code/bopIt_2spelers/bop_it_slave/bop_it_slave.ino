@@ -76,13 +76,13 @@ void setup() {
 
 void loop() {
   mqttClient.poll();
-
+  // actie controleren
   if (actieActief) {
     bool correct = false;
     if (huidigeActie == "bopIt" && digitalRead(buttonPush) == LOW) correct = true;
     else if (huidigeActie == "pullIt" && digitalRead(buttonPull) == LOW) correct = true;
     else if (huidigeActie == "twistIt" && digitalRead(buttonTwist) == LOW) correct = true;
-
+    // actie doorsturen naar master indien correct
     if (correct) {
       mqttClient.beginMessage(reactie);
       mqttClient.print("speler2");
@@ -95,7 +95,7 @@ void loop() {
     }
   }
 }
-
+// berichten ontvangen
 void onMqttMessage(int messageSize) {
   String topic = mqttClient.messageTopic();
   String bericht = "";
@@ -126,8 +126,9 @@ void onMqttMessage(int messageSize) {
       digitalWrite(ledRood, LOW);
     }
   }
+  // winnaar doorsturen naar master
   if (topic == winnaar && bericht == "speler2") {
-    Serial.println("🎉 Jij wint!");
+    Serial.println("Jij wint!");
     for (int i = 0; i < 5; i++) {
       digitalWrite(ledGroen, HIGH); delay(200);
       digitalWrite(ledGroen, LOW); delay(200);
