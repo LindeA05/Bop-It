@@ -1,5 +1,7 @@
-// Linde Aerssens en Janne Swijsen
-
+/* Linde Aerssens en Janne Swijsen
+    opkomende technologiën --> bop it
+    enkel spel
+*/
 
 // geluid afspelen
 
@@ -14,8 +16,11 @@ long counter = 0;
 long level = 0;
 int picker;
 bool inHetSpel = true;
+bool actie = false;
+
 
 // knoppen en lichtjes
+int buttonRestart = 9;
 int buttonPush = 7;
 int buttonPull = 2;
 int buttonTwist = 3;
@@ -23,7 +28,7 @@ int ledRood = 6;
 int ledGroen = 5;
 int lastTime = 0;
 int reactieTijd = 5000;
-int startLamp;
+
  
 void setup() {
 
@@ -35,7 +40,9 @@ void setup() {
         while (true);
     }
     
-  
+
+  pinMode(buttonRestart, INPUT_PULLUP);
+
   pinMode(buttonPush, INPUT_PULLUP);
 
   pinMode(buttonPull, INPUT_PULLUP);
@@ -84,35 +91,33 @@ void loop() {
 
    
   }
+ 
+
+
+if (digitalRead(buttonRestart) == LOW) {
+  Serial.println("--Restart--");
+   delay(1000);
+   inHetSpel = true;
+    counter = 0;
+    level = 0;
 
 }
+}
 
-void bopIt() {
+void correct(){
+digitalWrite(ledGroen, HIGH);
 
-  Serial.println("bopIt");
+   counter++;
 
-  unsigned long startTijd = millis();
+    Serial.println("Goed!  ");
+  
+  Serial.println(counter);
+  
+  delay(1000);
 
-  bool correct = false;
-
- // Serial.println("DFPlayer Mini ready!");
-  //myDFPlayer.volume(25);  // Set volume (0 to 30)
-  //Serial.println("Playing File 001.mp3");
-  //myDFPlayer.play(3);      // Play third MP3 file
-
-
-  while (millis() - startTijd < reactieTijd) {
-
-    if (digitalRead(buttonPush) == LOW) {
-
-      correct = true;
-
-      break;
-
-    }
-  }
-
-if (counter >= 10) {
+    digitalWrite(ledGroen, LOW);
+    
+    if (counter >= 3) {
 
       counter = 0;
 
@@ -120,47 +125,68 @@ if (counter >= 10) {
 
       reactieTijd = reactieTijd - 1500;
 
+      Serial.print("nu in level:");
       Serial.println(level);
+     
 
-      //lose = true;
-
-  }
-
-
+}
 if (level == 4) {
 
 inHetSpel = false;
 
 Serial.println("je hebt gewonnen!!");
-}  
+}
 
-  if (correct) {
 
-    digitalWrite(ledGroen, HIGH);
+}
 
-   counter++;
-
-    Serial.println("Goed!  ");
-  
-  Serial.print(counter);
-    
-    
-    //Serial.println(counter);
-
-    delay(1000);
-
-    digitalWrite(ledGroen, LOW);
-
-  } else {
-
-    digitalWrite(ledRood, HIGH);
+void fout(){
+  digitalWrite(ledRood, HIGH);
 
     Serial.println("Fout!");
 
     delay(1000);
 
     digitalWrite(ledRood, LOW);
+    inHetSpel = false;
 
+    Serial.println("Je zat in level: ");
+    Serial.print(level);
+    Serial.print(" met een score van: ");
+    Serial.print(counter);
+}
+
+void bopIt() {
+  Serial.println("bopIt");
+
+  unsigned long startTijd = millis();
+
+ 
+ myDFPlayer.volume(25);  
+ myDFPlayer.play(3);      
+
+
+  while (millis() - startTijd < reactieTijd) {
+      actie = false;
+    if (digitalRead(buttonPush) == LOW) {
+
+      correct();
+      actie = true;
+      break;
+  }
+      
+     if ((digitalRead(buttonPull) == LOW)||(digitalRead(buttonTwist) == LOW)) {
+
+      fout();
+      actie = true;
+
+      break;
+
+    }
+  }
+  if (actie){ 
+  }else {
+    fout();
   }
 
   delay(reactieTijd);
@@ -172,51 +198,36 @@ void pullIt() {
   Serial.println("pullIt");
 
   unsigned long startTijd = millis();
-
-  bool correct = false;
   
-  Serial.println("DFPlayer Mini ready!");
-  myDFPlayer.volume(25);  // Set volume (0 to 30)
-  Serial.println("Playing File 001.mp3");
-  myDFPlayer.play(2);      // Play second MP3 file
-
+  
+  myDFPlayer.volume(25);  
+  myDFPlayer.play(2);      
 
   while (millis() - startTijd < reactieTijd) {
-
+    actie = false;
     if (digitalRead(buttonPull) == LOW) {
 
-      correct = true;
+      correct();
+      actie = true;
+
+      break;
+      
+      }
+    
+     if ((digitalRead(buttonPush) == LOW)||(digitalRead(buttonTwist) == LOW)) {
+      
+    fout();
+    actie = true;
 
       break;
 
     }
 
   }
-
-  if (correct) {
-
-    digitalWrite(ledGroen, HIGH);
-
-    Serial.println("Goed!");
-
-    counter++;
-
-    delay(1000);
-
-    digitalWrite(ledGroen, LOW);
-
-  } else {
-
-    digitalWrite(ledRood, HIGH);
-
-    Serial.println("Fout!");
-
-    delay(1000);
-
-    digitalWrite(ledRood, LOW);
-
+  if (actie){ 
+  }else {
+    fout();
   }
-
   delay(reactieTijd);
 
 }
@@ -227,50 +238,35 @@ void twistIt() {
 
   unsigned long startTijd = millis();
 
-  bool correct = false;
-
-  Serial.println("DFPlayer Mini ready!");
-  myDFPlayer.volume(25);  // Set volume (0 to 30)
-  Serial.println("Playing File 001.mp3");
-  myDFPlayer.play(1);      // Play first MP3 file
+  
+  myDFPlayer.volume(25);  
+  myDFPlayer.play(1);      
 
 
   while (millis() - startTijd < reactieTijd) {
-
+    actie = false;
     if (digitalRead(buttonTwist) == LOW) {
 
-      correct = true;
+      correct();
+      actie = true;
 
+      break;
+      } 
+
+   
+     if ((digitalRead(buttonPush) == LOW)||(digitalRead(buttonPull) == LOW)) {
+
+      fout();
+      actie = true;
       break;
 
     }
 
   }
-
-  if (correct) {
-
-    digitalWrite(ledGroen, HIGH);
-
-    Serial.println("Goed!");
-
-    counter++;
-
-    delay(1000);
-
-    digitalWrite(ledGroen, LOW);
-
-  } else {
-
-    digitalWrite(ledRood, HIGH);
-
-    Serial.println("Fout!");
-
-    delay(1000);
-
-    digitalWrite(ledRood, LOW);
-
+  if (actie){ 
+  }else {
+    fout();
   }
-
   delay(reactieTijd);
 
 }
