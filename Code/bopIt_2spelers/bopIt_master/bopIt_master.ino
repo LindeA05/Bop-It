@@ -80,7 +80,7 @@ void setup() {
 void loop() {
   mqttClient.poll();
   
-// actiekiezen of de input contreleren
+
   if (!actieGestart && !actieBezig) {
      
     kiesActie();
@@ -88,7 +88,7 @@ void loop() {
     controleerInput("speler1");
   }
 }
-// random actie kiezen en doorsturen naar slave
+
 void kiesActie() {
   int keuze = random(1, 4);
   if (keuze == 1) {
@@ -108,7 +108,7 @@ void kiesActie() {
   actieGestart = true;
   startTijd = millis();
 }
-// input controleren en doorsturen
+
 void controleerInput(String speler) {
   bool correct = false;
   if (huidigeActie == "bopIt" && digitalRead(buttonPush) == LOW) {
@@ -144,7 +144,7 @@ void onMqttMessage(int messageSize) {
     if (!actieGestart) return;
 
     actieGestart = false;
-//aangeven wie het eerst op de knop heeft gedrukt
+
     if (bericht == "speler1") {
       score1++;
       Serial.print("Score1:");
@@ -172,11 +172,11 @@ void onMqttMessage(int messageSize) {
       mqttClient.beginMessage(resultaatSpeler1);
       mqttClient.print("fout");
       mqttClient.endMessage();
-      digitalWrite(ledRood, HIGH);
+      digitalWrite(ledRood, LOW);
       delay(1000);
       digitalWrite(ledRood, LOW);
     }
-//winnaar doorsturen en aangeven
+
     if (score1 >= 10) {
       score1 = 0;
       score2 =0;
